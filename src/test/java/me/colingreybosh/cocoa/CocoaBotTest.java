@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
  * @author Colin Greybosh
  *
  */
-public class AppTest {
+public class CocoaBotTest {
     
     @Test
     public void testAssertionsEnabled() {
