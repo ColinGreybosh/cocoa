@@ -1,3 +1,6 @@
+# cocoa specific .gitignore
+src/main/java/me/colingreybosh/cocoa/Constants.java
+
 # Maven .gitignore from github/gitignore #
 target/
 pom.xml.tag
