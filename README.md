@@ -1,2 +1,2 @@
-# cocoa
-This is a Java implementation of the cocoa-bot that I originally created in Python
+# cocoa ![Java CI with Maven](https://github.com/ColinGreybosh/cocoa/workflows/Java%20CI%20with%20Maven/badge.svg?branch=master&event=push)
+This is a Java implementation of the Discord bot that I originally created in Python located [here](https://github.com/ColinGreybosh/cocoa-bot).
