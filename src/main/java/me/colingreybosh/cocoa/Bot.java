@@ -2,6 +2,7 @@ package me.colingreybosh.cocoa;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.security.auth.login.LoginException;
@@ -12,7 +13,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 
 /**
- * An ADT representing a basic Discord bot.
+ * A mutable ADT representing a basic Discord bot.
  * 
  * @author Colin Greybosh
  *
@@ -25,7 +26,7 @@ public class Bot {
     
     /*
      * Abstraction Function:
-     *   AF(token, listeners, intents) = a bot running on the Discord appication denoted by the `token`
+     *   AF(token, listeners, intents) = a bot running on the Discord application denoted by the `token`
      *                                   with all the listener methods in `listeners` that operates with
      *                                   all intent flags in `intents` enabled along with JDA's default
      *                                   intents.
@@ -135,5 +136,32 @@ public class Bot {
      */
     public Set<GatewayIntent> getIntents() {
         return Collections.unmodifiableSet(intents);
+    }
+    
+    @Override
+    public boolean equals(Object that) {
+        return that instanceof Bot && sameValue((Bot) that);
+    }
+    
+    /**
+     * Checks for equality between this bot and another bot instance. 
+     * 
+     * @param that Another bot instance
+     * @return {@code true} if this bot and that bot are observationally equal
+     */
+    public boolean sameValue(Bot that) {
+        return getToken().equals(that.getToken()) 
+                && getListeners().equals(that.getListeners())
+                && getIntents().equals(that.getIntents());
+    }
+    
+    @Override
+    public int hashCode() {
+        return Objects.hash(token, listeners, intents);
+    }
+    
+    @Override
+    public String toString() {
+        return String.format("[Bot %s, %s, %s]", token, listeners, intents);
     }
 }
