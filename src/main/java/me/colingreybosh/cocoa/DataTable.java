@@ -16,7 +16,7 @@ import java.util.Set;
  * FILE ::= ROW*
  * ROW ::= KEY " " VALUE NEWLINE
  * KEY ::= VALUE
- * VALUE ::= [^\s\n\r]+
+ * VALUE ::= [\S]+
  * NEWLINE ::= "\n" | "\r" "\n"?
  * 
  * Completely empty files are valid tables as well.
