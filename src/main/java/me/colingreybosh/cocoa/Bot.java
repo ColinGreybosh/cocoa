@@ -79,6 +79,7 @@ public class Bot {
     /**
      * Connect to Discord.
      * 
+     * @return The current JDA instance.
      * @throws LoginException If this bot's token is invalid
      * @throws IllegalArgumentException If this bot's token is empty or null
      * @throws InterruptedException If this bot's thread was interrupted while waiting to connect to Discord
