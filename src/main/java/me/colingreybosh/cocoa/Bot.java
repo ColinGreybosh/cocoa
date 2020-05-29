@@ -160,6 +160,9 @@ public class Bot {
         return Collections.unmodifiableSet(intents);
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object that) {
         return that instanceof Bot && sameValue((Bot) that);
@@ -177,11 +180,17 @@ public class Bot {
                 && getIntents().equals(that.getIntents());
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         return Objects.hash(token, listeners, intents);
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return String.format("[Bot %s, %s, %s]", token, listeners, intents);
