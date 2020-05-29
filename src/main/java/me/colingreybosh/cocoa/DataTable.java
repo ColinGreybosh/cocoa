@@ -1,11 +1,18 @@
 package me.colingreybosh.cocoa;
 
+import static java.nio.file.StandardOpenOption.APPEND;
+import static java.nio.file.StandardOpenOption.CREATE;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Iterator;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
 
 /**
  * Mutable ADT representing a simple mapping of data stored in a file.
@@ -25,94 +32,27 @@ import java.util.Set;
  * @author Colin Greybosh
  *
  */
-public class DataTable implements Map<String, String>, Iterable<DataTable.Row>, AutoCloseable {
+public class DataTable implements AutoCloseable {
     
-    /**
-     * An immutable ADT representing a row within a 2-column table.
+    private static final Charset CHARSET = Charset.forName("UTF-8");
+    private final Path path;
+    private final BufferedReader reader;
+    private final BufferedWriter writer;
+    private final Map<String, String> table;
+    
+    /*
+     * Abstraction Function
+     *   AF(path, reader, writer, table) = a DataTable that modifies the file located at `path` using
+     *                                     `reader` and `writer` such that `table` represents the
+     *                                     data contained within that file at any point in time 
+     *   
+     * Representation Invariant
+     *   true
      * 
-     * @author Colin Greybosh
-     * 
+     * Safety from representation exposure
+     *   all fields are private and final
+     *   table is returned within an unmodifiable wrapper
      */
-    public static class Row {
-        private final String key;
-        private final String value;
-        
-        /*
-         * Abstraction Function:
-         *   AF(key, value) = a table entry mapping `key` -> `value`
-         *   
-         * Representation Invariant:
-         *   true
-         *   
-         * Safety from representation exposure:
-         *   all fields are private and final
-         *   all fields are immutable types
-         */
-        
-        /**
-         * Create a new table entry.
-         * 
-         * @param key The key in the first column.
-         * @param value The value in the second column.
-         */
-        public Row(String key, String value) {
-            this.key = key;
-            this.value = value;
-        }
-        
-        /**
-         * Get this row's key.
-         * 
-         * @return This row's key.
-         */
-        public String getKey() {
-            return key;
-        }
-        
-        /**
-         * Get this row's value.
-         * 
-         * @return This row's value.
-         */
-        public String getValue() {
-            return value;
-        }
-        
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public boolean equals(Object that) {
-            return that instanceof Row && sameValue((Row) that);
-        }
-        
-        /**
-         * Indicates whether this Row is equal to another Row.
-         * 
-         * @param that
-         * @return {@code true} if this object is observationally 
-         */
-        public boolean sameValue(Row that) {
-            return getKey().equals(that.getKey()) 
-                    && getValue().equals(that.getValue());
-        }
-        
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public int hashCode() {
-            return Objects.hash(getKey(), getValue());
-        }
-        
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public String toString() {
-            return "(" + getKey() + " -> " + getValue() + ")";
-        }
-    }
     
     /**
      * Create a table, generating a new empty table at {@code pathToFile} if one
@@ -124,6 +64,34 @@ public class DataTable implements Map<String, String>, Iterable<DataTable.Row>, 
      * @throws IOException If the path is invalid or opening the file fails.
      */
     public DataTable(String pathToFile) throws IOException {
+        path = Paths.get(pathToFile);
+        writer = Files.newBufferedWriter(path, CHARSET, CREATE, APPEND);
+        reader = Files.newBufferedReader(path, CHARSET);
+        table = new HashMap<>();
+        checkRep();
+    }
+    
+    private void checkRep() {
+        assert writer != null;
+        assert reader != null;
+        assert table != null;
+    }
+    
+    /**
+     * Generates the contents of a DataTable file equivalent to the current table instance.
+     * 
+     * @return The contents of a DataTable file equivalent to the current table instance.
+     */
+    private String toFile() {
+        throw new RuntimeException("unimplemented");
+    }
+    
+    /**
+     * Generates a map equivalent to the contents of a DataTable file.
+     * 
+     * @return A map equivalent to the contents of a DataTable file.
+     */
+    private Map<String, String> toMap() {
         throw new RuntimeException("unimplemented");
     }
     
@@ -143,103 +111,16 @@ public class DataTable implements Map<String, String>, Iterable<DataTable.Row>, 
     public int size() {
         throw new RuntimeException("unimplemented");
     }
-    
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isEmpty() {
-        return false;
-    }
 
     /**
-     * {@inheritDoc}
+     * Get the table.
+     * 
+     * @return The table.
      */
-    @Override
-    public boolean containsKey(Object key) {
-        throw new RuntimeException("unimplemented");
+    public Map<String, String> getTable() {
+        return Collections.unmodifiableMap(table);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean containsValue(Object value) {
-        throw new RuntimeException("unimplemented");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String get(Object key) {
-        throw new RuntimeException("unimplemented");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String put(String key, String value) {
-        throw new RuntimeException("unimplemented");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String remove(Object key) {
-        throw new RuntimeException("unimplemented");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void putAll(Map<? extends String, ? extends String> m) {
-        throw new RuntimeException("unimplemented");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void clear() {
-        throw new RuntimeException("unimplemented");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Set<String> keySet() {
-        throw new RuntimeException("unimplemented");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Collection<String> values() {
-        throw new RuntimeException("unimplemented");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Set<Entry<String, String>> entrySet() {
-        throw new RuntimeException("unimplemented");
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Iterator<Row> iterator() {
-        throw new RuntimeException("unimplemented");
-    }
-    
     /**
      * {@inheritDoc}
      */
