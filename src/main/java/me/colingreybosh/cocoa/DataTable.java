@@ -1,5 +1,6 @@
 package me.colingreybosh.cocoa;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
@@ -120,8 +121,9 @@ public class DataTable implements Map<String, String>, Iterable<DataTable.Row>, 
      * Only a single instance of a table may exist for every unique file.
      * 
      * @param pathToFile The path to the file containing the table information.
+     * @throws IOException If the path is invalid or opening the file fails.
      */
-    public DataTable(String pathToFile) {
+    public DataTable(String pathToFile) throws IOException {
         throw new RuntimeException("unimplemented");
     }
     
