@@ -125,6 +125,9 @@ public class DataTable implements Map<String, String>, Iterable<DataTable.Row>, 
         throw new RuntimeException("unimplemented");
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void close() throws Exception {
         throw new RuntimeException("unimplemented");
@@ -139,66 +142,105 @@ public class DataTable implements Map<String, String>, Iterable<DataTable.Row>, 
         throw new RuntimeException("unimplemented");
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isEmpty() {
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean containsKey(Object key) {
         throw new RuntimeException("unimplemented");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean containsValue(Object value) {
         throw new RuntimeException("unimplemented");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String get(Object key) {
         throw new RuntimeException("unimplemented");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String put(String key, String value) {
         throw new RuntimeException("unimplemented");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String remove(Object key) {
         throw new RuntimeException("unimplemented");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void putAll(Map<? extends String, ? extends String> m) {
         throw new RuntimeException("unimplemented");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void clear() {
         throw new RuntimeException("unimplemented");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Set<String> keySet() {
         throw new RuntimeException("unimplemented");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Collection<String> values() {
         throw new RuntimeException("unimplemented");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Set<Entry<String, String>> entrySet() {
         throw new RuntimeException("unimplemented");
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Iterator<Row> iterator() {
         throw new RuntimeException("unimplemented");
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object that) {
         return that instanceof DataTable && sameValue((DataTable) that);
@@ -214,11 +256,17 @@ public class DataTable implements Map<String, String>, Iterable<DataTable.Row>, 
         throw new RuntimeException("unimplemented");
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         throw new RuntimeException("unimplemented");
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         throw new RuntimeException("unimplemented");
