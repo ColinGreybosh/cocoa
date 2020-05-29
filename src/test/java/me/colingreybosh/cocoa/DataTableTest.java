@@ -1,6 +1,10 @@
 package me.colingreybosh.cocoa;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
+
+import java.io.IOException;
 
 import org.junit.jupiter.api.Test;
 
@@ -66,4 +70,40 @@ public class DataTableTest {
      * 
      */
     
+    // Tests on size()
+    
+    private static void testSize(String filePath, int expectedSize) {
+        try (final DataTable table = new DataTable(filePath)) {
+            assertEquals(expectedSize, table.size(), "Expected table size to be " + expectedSize);
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
+    
+    /*
+     * subdomains covered:
+     *   returns 0
+     */
+    @Test
+    public void testSizeEmpty() {
+        testSize("src/test/java/me/colingreybosh/cocoa/tables/empty.dt", 0);
+    }
+    
+    /*
+     * subdomains covered:
+     *   returns 1
+     */
+    @Test
+    public void testSizeOne() {
+        testSize("src/test/java/me/colingreybosh/cocoa/tables/single.dt", 1);
+    }
+    
+    /*
+     * subdomains covered:
+     *   return >1
+     */
+    @Test
+    public void testSizeGreaterThanOne() {
+        testSize("src/test/java/me/colingreybosh/cocoa/tables/three.dt", 3);
+    }
 }
