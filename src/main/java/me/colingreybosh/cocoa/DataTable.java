@@ -27,7 +27,7 @@ import java.util.Set;
 public class DataTable implements Map<String, String>, Iterable<DataTable.Row>, AutoCloseable {
     
     /**
-     * An ADT representing a row within a 2-column table.
+     * An immutable ADT representing a row within a 2-column table.
      * 
      * @author Colin Greybosh
      * 
@@ -36,34 +36,77 @@ public class DataTable implements Map<String, String>, Iterable<DataTable.Row>, 
         private final String key;
         private final String value;
         
+        /*
+         * Abstraction Function:
+         *   AF(key, value) = a table entry mapping `key` -> `value`
+         *   
+         * Representation Invariant:
+         *   true
+         *   
+         * Safety from representation exposure:
+         *   all fields are private and final
+         *   all fields are immutable types
+         */
+        
+        /**
+         * Create a new table entry.
+         * 
+         * @param key The key in the first column.
+         * @param value The value in the second column.
+         */
         public Row(String key, String value) {
             this.key = key;
             this.value = value;
         }
         
+        /**
+         * Get this row's key.
+         * 
+         * @return This row's key.
+         */
         public String getKey() {
             return key;
         }
         
+        /**
+         * Get this row's value.
+         * 
+         * @return This row's value.
+         */
         public String getValue() {
             return value;
         }
         
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public boolean equals(Object that) {
             return that instanceof Row && sameValue((Row) that);
         }
         
+        /**
+         * Indicates whether this Row is equal to another Row.
+         * 
+         * @param that
+         * @return {@code true} if this object is observationally 
+         */
         public boolean sameValue(Row that) {
             return getKey().equals(that.getKey()) 
                     && getValue().equals(that.getValue());
         }
         
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public int hashCode() {
             return Objects.hash(getKey(), getValue());
         }
         
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public String toString() {
             return "(" + getKey() + " -> " + getValue() + ")";
