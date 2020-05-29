@@ -67,6 +67,20 @@ public class Bot {
         checkRep();
     }
     
+    public static void main(String[] arguments) {
+        System.err.println("Creating bot...");
+        final Bot bot = new Bot(Constants.TOKEN);
+        System.err.println("Bot created!");
+        System.err.println("Connecting bot...");
+        try {
+            bot.start();
+            System.err.println("Bot logged in!");
+        } catch (LoginException | IllegalArgumentException | InterruptedException e) {
+            System.err.println("Bot failed to log in!");
+            e.printStackTrace();
+        }
+    }
+    
     /**
      * Asserts the representation invariant.
      */
@@ -85,7 +99,14 @@ public class Bot {
      * @throws InterruptedException If this bot's thread was interrupted while waiting to connect to Discord
      */
     public JDA start() throws LoginException, IllegalArgumentException, InterruptedException {
-        return JDABuilder.createDefault(token, intents).addEventListeners(listeners).build().awaitReady();
+        final JDABuilder jdaBuilder = JDABuilder.createDefault(token);
+        if (!intents.isEmpty()) {
+            jdaBuilder.enableIntents(intents);
+        }
+        if (!listeners.isEmpty()) {
+            jdaBuilder.addEventListeners(listeners);
+        }
+        return jdaBuilder.build().awaitReady();
     }
     
     /**
