@@ -9,7 +9,6 @@ import javax.security.auth.login.LoginException;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
-import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 
 /**
@@ -21,7 +20,7 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 public class Bot {
 
     private final String token;
-    private final Set<ListenerAdapter> listeners;
+    private final Set<Object> listeners;
     private final Set<GatewayIntent> intents;
     
     /*
@@ -32,7 +31,7 @@ public class Bot {
      *                                   intents.
      *   
      * Representation Invariant:
-     *   true
+     *   the entries of listeners and intents are non-null
      * 
      * Safety From Representation Exposure:
      *   all fields are private and final
@@ -53,14 +52,14 @@ public class Bot {
         checkRep();
     }
     
-    public Bot(String token, Set<ListenerAdapter> listeners) {
+    public Bot(String token, Set<Object> listeners) {
         this.token = token;
         this.listeners = new HashSet<>(listeners);
         this.intents = new HashSet<>(Set.of(GatewayIntent.GUILD_MEMBERS));
         checkRep();
     }
     
-    public Bot(String token, Set<ListenerAdapter> listeners, Set<GatewayIntent> intents) {
+    public Bot(String token, Set<Object> listeners, Set<GatewayIntent> intents) {
         this.token = token;
         this.listeners = new HashSet<>(listeners);
         this.intents = new HashSet<>(intents);
@@ -86,8 +85,12 @@ public class Bot {
      */
     private void checkRep() {
        assert token != null;
-       assert listeners != null;
-       assert intents != null;
+       for (Object listener : listeners) {
+           assert listener != null;
+       }
+       for (Object intent : intents) {
+           assert intent != null;
+       }
     }
     
     /**
@@ -124,7 +127,7 @@ public class Bot {
      * @param listener The listener to add
      * @return {@code true} if this bot did not already have this listener  
      */
-    public boolean addListener(ListenerAdapter listener) {
+    public boolean addListener(Object listener) {
         boolean result = listeners.add(listener);
         checkRep();
         return result;
@@ -135,7 +138,7 @@ public class Bot {
      * 
      * @return This bot's listeners
      */
-    public Set<ListenerAdapter> getListeners() {
+    public Set<Object> getListeners() {
         return Collections.unmodifiableSet(listeners);
     }
     
