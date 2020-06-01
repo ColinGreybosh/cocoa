@@ -13,7 +13,7 @@ import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Stream;
+import java.util.Objects;
 
 /**
  * Mutable ADT representing a simple mapping of data stored in a file.
@@ -153,7 +153,7 @@ public class DataTable implements AutoCloseable {
      * @return {@code true} if this table and {@code that} are observationally equal.
      */
     public boolean sameValue(DataTable that) {
-        throw new RuntimeException("unimplemented");
+        return getTable().equals(that.getTable());
     }
     
     /**
@@ -161,7 +161,7 @@ public class DataTable implements AutoCloseable {
      */
     @Override
     public int hashCode() {
-        throw new RuntimeException("unimplemented");
+        return Objects.hash(table);
     }
     
     /**
@@ -169,6 +169,6 @@ public class DataTable implements AutoCloseable {
      */
     @Override
     public String toString() {
-        throw new RuntimeException("unimplemented");
+        return "(Table " + path + ")";
     }
 }
