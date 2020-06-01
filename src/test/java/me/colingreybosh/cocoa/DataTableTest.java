@@ -148,5 +148,21 @@ public class DataTableTest {
        }
     }
     
-    // TODO more tests
+    /*
+     * subdomains covered:
+     *   returns true
+     *   table is nonempty
+     */
+    @Test
+    public void testSameValueNonEmptyTrue() {
+        final boolean expected = true;
+        try (final DataTable table0 = new DataTable(BASE_PATH + "three.dt");
+                final DataTable table1 = new DataTable(BASE_PATH + "sameValueNonEmptyTrue.dt")) {
+           testSameValueReflexivity(table0);
+           testSameValueReflexivity(table1);
+           testSameValueSymmetry(table0, table1, expected);
+       } catch (Exception e) {
+           fail(e.getMessage());
+       }
+    }
 }
