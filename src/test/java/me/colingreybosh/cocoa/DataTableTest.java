@@ -25,10 +25,7 @@ public class DataTableTest {
     /*
      * Testing Strategy
      * 
-     * toFile()
-     *   
-     * 
-     * toMap()
+     * toFile() and toMap()
      *   
      * 
      * size()
