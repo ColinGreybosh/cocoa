@@ -128,6 +128,17 @@ public class DataTable implements AutoCloseable {
     public int size() {
         return table.size();
     }
+    
+    /**
+     * Put this key->value pair into the table, adding a new line
+     * if one does not exist and modifying the existing line otherwise.
+     * 
+     * @param key The key to add to the table.
+     * @param value The value to add to the table.
+     */
+    public void put(String key, String value) {
+        throw new RuntimeException("unimplemented");
+    }
 
     /**
      * Get the table.
