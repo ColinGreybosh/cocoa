@@ -13,6 +13,7 @@ import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 /**
  * Mutable ADT representing a simple mapping of data stored in a file.
@@ -67,7 +68,7 @@ public class DataTable implements AutoCloseable {
         path = Paths.get(pathToFile);
         writer = Files.newBufferedWriter(path, CHARSET, CREATE, APPEND);
         reader = Files.newBufferedReader(path, CHARSET);
-        table = new HashMap<>();
+        table = toMap();
         checkRep();
     }
     
@@ -82,8 +83,12 @@ public class DataTable implements AutoCloseable {
      * 
      * @return The contents of a DataTable file equivalent to the current table instance.
      */
-    private String toFile() {
-        throw new RuntimeException("unimplemented");
+    private String toFileContents() {
+        String result = "";
+        for (Map.Entry<String, String> row : table.entrySet()) {
+            result += row.getKey() + " " + row.getValue() + "\n";
+        }
+        return result;
     }
     
     /**
@@ -92,15 +97,27 @@ public class DataTable implements AutoCloseable {
      * @return A map equivalent to the contents of a DataTable file.
      */
     private Map<String, String> toMap() {
-        throw new RuntimeException("unimplemented");
+        final Map<String, String> result = new HashMap<>();
+        reader.lines()
+             .map(line -> line.split(" "))
+             .map(DataTable::toEntry)
+             .forEach(result::putAll);
+        return result;
     }
     
+    private static Map<String, String> toEntry(String[] line) {
+        final Map<String, String> result = new HashMap<>();
+        result.put(line[0], line[1]);
+        return result;
+    }
+   
     /**
      * {@inheritDoc}
      */
     @Override
     public void close() throws Exception {
-        throw new RuntimeException("unimplemented");
+        reader.close();
+        writer.close();
     }
     
     /**
@@ -109,7 +126,7 @@ public class DataTable implements AutoCloseable {
      * @return The size of the table, in number of rows.
      */
     public int size() {
-        throw new RuntimeException("unimplemented");
+        return table.size();
     }
 
     /**
