@@ -125,9 +125,9 @@ public class DataTableTest {
            testSameValueReflexivity(table0);
            testSameValueReflexivity(table1);
            testSameValueSymmetry(table0, table1, expected);
-       } catch (Exception e) {
+        } catch (Exception e) {
            fail(e.getMessage());
-       }
+        }
     }
     
     /*
@@ -143,9 +143,9 @@ public class DataTableTest {
            testSameValueReflexivity(table0);
            testSameValueReflexivity(table1);
            testSameValueSymmetry(table0, table1, expected);
-       } catch (Exception e) {
+        } catch (Exception e) {
            fail(e.getMessage());
-       }
+        }
     }
     
     /*
@@ -161,8 +161,30 @@ public class DataTableTest {
            testSameValueReflexivity(table0);
            testSameValueReflexivity(table1);
            testSameValueSymmetry(table0, table1, expected);
-       } catch (Exception e) {
+        } catch (Exception e) {
            fail(e.getMessage());
-       }
+        }
+    }
+    
+    /*
+     * subdomains covered:
+     *   returns true
+     *   table is nonempty
+     */
+    @Test
+    public void testSameValueTransitivity() {
+        final boolean expected = true;
+        try (final DataTable table0 = new DataTable(BASE_PATH + "three.dt");
+                final DataTable table1 = new DataTable(BASE_PATH + "sameValueTransitive.dt");
+                final DataTable table2 = new DataTable(BASE_PATH + "three.dt")) {
+           testSameValueReflexivity(table0);
+           testSameValueReflexivity(table1);
+           testSameValueReflexivity(table2);
+           testSameValueSymmetry(table0, table1, expected);
+           testSameValueSymmetry(table1, table2, expected);
+           testSameValueTransitivity(table0, table1, table2, expected);
+        } catch (Exception e) {
+           fail(e.getMessage());
+        }
     }
 }
