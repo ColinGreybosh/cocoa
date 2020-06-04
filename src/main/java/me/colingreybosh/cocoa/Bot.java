@@ -67,8 +67,9 @@ public class Bot {
     }
     
     public static void main(String[] arguments) {
+        final String token = arguments[0];
         System.err.println("Creating bot...");
-        final Bot bot = new Bot(Constants.TOKEN);
+        final Bot bot = new Bot(token);
         System.err.println("Bot created!");
         System.err.println("Connecting bot...");
         try {

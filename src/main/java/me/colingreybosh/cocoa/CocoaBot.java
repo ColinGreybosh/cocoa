@@ -20,7 +20,8 @@ public class CocoaBot extends Bot {
     }
     
     public static void main(String[] arguments) {
-        final CocoaBot bot = new CocoaBot(Constants.TOKEN);
+        final String token = arguments[0];
+        final CocoaBot bot = new CocoaBot(token);
         try {
             bot.start();
         } catch (LoginException | IllegalArgumentException | InterruptedException e) {

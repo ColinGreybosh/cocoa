@@ -10,11 +10,19 @@ public class CocoaBotListener extends ListenerAdapter {
         if (event.getAuthor().isBot()) {
             return;
         } else if (event.getMessage().getContentRaw().equals("!cocoa")) {
+            /*
+             * Chat command !cocoa
+             * 
+             * Call and response in the channel the message was sent.
+             */
             final MessageChannel channel = event.getChannel();
             channel.sendMessage("☕ COOOOOOOOOOOCOOOOOOOOOOOOOOOOAAAAAAAA!!! ☕").queue();
         } else if (event.getMessage().getContentRaw().matches(/* TODO */ "")) {
-            final MessageChannel channel = event.getChannel();
-            channel.sendMessage("☕ COOOOOOOOOOOCOOOOOOOOOOOOOOOOAAAAAAAA!!! ☕").queue();
+            /*
+             * Scans chat to count for instances of Regex matches
+             * Keeps track of the number of matches
+             */
+            // TODO implement
         }
     }
 }
