@@ -26,7 +26,8 @@ public class DataTableTest {
      * Testing Strategy
      * 
      * toFileContents() and toMap()
-     *   
+     *   table (has/hasn't) been modified
+     *   table.size() == 0, table.size() > 0
      * 
      * size()
      *   returns 0, 1, >1
@@ -35,6 +36,10 @@ public class DataTableTest {
      *   returns true, returns false
      *   table is empty, table is nonempty
      */
+    
+    // Tests on toFileContents() and toMap()
+    
+    
     
     // Tests on size()
     
