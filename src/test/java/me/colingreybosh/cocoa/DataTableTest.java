@@ -2,7 +2,6 @@ package me.colingreybosh.cocoa;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -58,6 +57,22 @@ public class DataTableTest {
     /*
      * subdomains covered:
      *   table hasn't been modified
+     *   table.size() != 0
+     */
+    @Test
+    public void testToFileContentsNonEmpty() throws Exception {
+        final String expected =
+                "689225599990104070 2\r\n" +
+                "689225599990104071 1\r\n" + 
+                "689225599990104072 0\r\n";
+        try (final DataTable table = new DataTable(BASE_PATH + "three.dt")) {
+            assertEquals(expected, table.toFileContents(), "Expected " + expected);
+        }
+    }
+    
+    /*
+     * subdomains covered:
+     *   table hasn't been modified
      *   table.size() == 0
      */
     @Test
@@ -68,13 +83,25 @@ public class DataTableTest {
         }
     }
     
+    /*
+     * subdomains covered:
+     *   table hasn't been modified
+     *   table.size() != 0
+     */
+    @Test
+    public void testToMapNonEmpty() throws Exception {
+        final Map<String, String> expected = Map.of("689225599990104070", "2", 
+                "689225599990104071", "1", "689225599990104072", "0");
+        try (final DataTable table = new DataTable(BASE_PATH + "three.dt")) {
+            assertEquals(expected, table.toMap(), "Expected " + expected);
+        }
+    }
+    
     // Tests on size()
     
-    private static void testSize(String filePath, int expectedSize) {
+    private static void testSize(String filePath, int expectedSize) throws Exception {
         try (final DataTable table = new DataTable(filePath)) {
             assertEquals(expectedSize, table.size(), "Expected table size to be " + expectedSize);
-        } catch (Exception e) {
-            fail(e.getMessage());
         }
     }
     
@@ -83,7 +110,7 @@ public class DataTableTest {
      *   returns 0
      */
     @Test
-    public void testSizeEmpty() {
+    public void testSizeEmpty() throws Exception {
         testSize(BASE_PATH + "empty.dt", 0);
     }
     
@@ -92,7 +119,7 @@ public class DataTableTest {
      *   returns 1
      */
     @Test
-    public void testSizeOne() {
+    public void testSizeOne() throws Exception {
         testSize(BASE_PATH + "single.dt", 1);
     }
     
@@ -101,7 +128,7 @@ public class DataTableTest {
      *   return >1
      */
     @Test
-    public void testSizeGreaterThanOne() {
+    public void testSizeGreaterThanOne() throws Exception {
         testSize(BASE_PATH + "three.dt", 3);
     }
     
@@ -132,15 +159,13 @@ public class DataTableTest {
      *   table is empty
      */
     @Test
-    public void testSameValueEmpty() {
+    public void testSameValueEmpty() throws Exception {
         final boolean expected = true;
         try (final DataTable table0 = new DataTable(BASE_PATH + "sameValueEmpty0.txt");
              final DataTable table1 = new DataTable(BASE_PATH + "sameValueEmpty1.txt")) {
             testSameValueReflexivity(table0);
             testSameValueReflexivity(table1);
             testSameValueSymmetry(table0, table1, expected);
-        } catch (Exception e) {
-            fail(e.getMessage());
         }
     }
     
@@ -150,15 +175,13 @@ public class DataTableTest {
      *   table is empty
      */
     @Test
-    public void testSameValueEmptyFalse() {
+    public void testSameValueEmptyFalse() throws Exception {
         final boolean expected = false;
         try (final DataTable table0 = new DataTable(BASE_PATH + "empty.dt");
                 final DataTable table1 = new DataTable(BASE_PATH + "single.dt")) {
            testSameValueReflexivity(table0);
            testSameValueReflexivity(table1);
            testSameValueSymmetry(table0, table1, expected);
-        } catch (Exception e) {
-           fail(e.getMessage());
         }
     }
     
@@ -168,15 +191,13 @@ public class DataTableTest {
      *   table is nonempty
      */
     @Test
-    public void testSameValueNonEmptyFalse() {
+    public void testSameValueNonEmptyFalse() throws Exception {
         final boolean expected = false;
         try (final DataTable table0 = new DataTable(BASE_PATH + "three.dt");
                 final DataTable table1 = new DataTable(BASE_PATH + "single.dt")) {
            testSameValueReflexivity(table0);
            testSameValueReflexivity(table1);
            testSameValueSymmetry(table0, table1, expected);
-        } catch (Exception e) {
-           fail(e.getMessage());
         }
     }
     
@@ -186,15 +207,13 @@ public class DataTableTest {
      *   table is nonempty
      */
     @Test
-    public void testSameValueNonEmptyTrue() {
+    public void testSameValueNonEmptyTrue() throws Exception {
         final boolean expected = true;
         try (final DataTable table0 = new DataTable(BASE_PATH + "three.dt");
                 final DataTable table1 = new DataTable(BASE_PATH + "sameValueNonEmptyTrue.dt")) {
            testSameValueReflexivity(table0);
            testSameValueReflexivity(table1);
            testSameValueSymmetry(table0, table1, expected);
-        } catch (Exception e) {
-           fail(e.getMessage());
         }
     }
     
@@ -204,7 +223,7 @@ public class DataTableTest {
      *   table is nonempty
      */
     @Test
-    public void testSameValueTransitivity() {
+    public void testSameValueTransitivity() throws Exception {
         final boolean expected = true;
         try (final DataTable table0 = new DataTable(BASE_PATH + "three.dt");
                 final DataTable table1 = new DataTable(BASE_PATH + "sameValueTransitive.dt");
@@ -215,8 +234,6 @@ public class DataTableTest {
            testSameValueSymmetry(table0, table1, expected);
            testSameValueSymmetry(table1, table2, expected);
            testSameValueTransitivity(table0, table1, table2, expected);
-        } catch (Exception e) {
-           fail(e.getMessage());
         }
     }
 }
