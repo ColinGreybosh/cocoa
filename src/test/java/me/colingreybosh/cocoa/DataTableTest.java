@@ -4,6 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.junit.jupiter.api.Test;
 
 /**
@@ -39,7 +42,31 @@ public class DataTableTest {
     
     // Tests on toFileContents() and toMap()
     
+    /*
+     * subdomains covered:
+     *   table hasn't been modified
+     *   table.size() == 0
+     */
+    @Test
+    public void testToFileContentsEmpty() throws Exception {
+        final String expected = "";
+        try (final DataTable table = new DataTable(BASE_PATH + "empty.dt")) {
+            assertEquals(expected, table.toFileContents(), "Expected the empty string!");
+        }
+    }
     
+    /*
+     * subdomains covered:
+     *   table hasn't been modified
+     *   table.size() == 0
+     */
+    @Test
+    public void testToMapEmpty() throws Exception {
+        final Map<String, String> expected = new HashMap<>();
+        try (final DataTable table = new DataTable(BASE_PATH + "empty.dt")) {
+            assertEquals(expected, table.toMap(), "Expected an empty map!");
+        }
+    }
     
     // Tests on size()
     
