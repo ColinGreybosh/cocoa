@@ -83,7 +83,7 @@ public class DataTable implements AutoCloseable {
      * 
      * @return The contents of a DataTable file equivalent to the current table instance.
      */
-    private String toFileContents() {
+    protected String toFileContents() {
         String result = "";
         for (Map.Entry<String, String> row : table.entrySet()) {
             result += row.getKey() + " " + row.getValue() + "\n";
@@ -96,7 +96,7 @@ public class DataTable implements AutoCloseable {
      * 
      * @return A map equivalent to the contents of a DataTable file.
      */
-    private Map<String, String> toMap() {
+    protected Map<String, String> toMap() {
         final Map<String, String> result = new HashMap<>();
         reader.lines()
              .map(line -> line.split(" "))
@@ -105,7 +105,7 @@ public class DataTable implements AutoCloseable {
         return result;
     }
     
-    private static Map<String, String> toEntry(String[] line) {
+    protected static Map<String, String> toEntry(String[] line) {
         final Map<String, String> result = new HashMap<>();
         result.put(line[0], line[1]);
         return result;
