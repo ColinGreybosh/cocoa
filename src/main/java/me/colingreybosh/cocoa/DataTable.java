@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Mutable ADT representing a simple mapping of data stored in a file.
@@ -39,15 +40,16 @@ public class DataTable implements AutoCloseable {
     
     private static final Charset CHARSET = Charset.forName("UTF-8");
     private final Path path;
-    private final BufferedReader reader;
     private final BufferedWriter writer;
     private final Map<String, String> table;
+    private final List<String> lines;
     
     /*
      * Abstraction Function
-     *   AF(path, reader, writer, table) = a DataTable that modifies the file located at `path` using
-     *                                     `reader` and `writer` such that `table` represents the
-     *                                     data contained within that file at any point in time 
+     *   AF(path, writer, table, lines) = a DataTable that modifies the file containing `lines`
+     *                                    located at `path` using `reader` and `writer` such 
+     *                                    that `table` represents the data contained within 
+     *                                    that file at any point in time 
      *   
      * Representation Invariant
      *   true
@@ -69,20 +71,22 @@ public class DataTable implements AutoCloseable {
     public DataTable(String pathToFile) throws IOException {
         path = Paths.get(pathToFile);
         writer = Files.newBufferedWriter(path, CHARSET, CREATE, APPEND);
-        reader = Files.newBufferedReader(path, CHARSET);
+        lines = Files.newBufferedReader(path, CHARSET).lines().collect(Collectors.toList());
         table = toMap();
         checkRep();
     }
     
     private void checkRep() {
         assert writer != null;
-        assert reader != null;
+        for (String line : lines) {
+            assert line != null;
+        }
         assert table != null;
     }
     
     /**
      * Generates the contents of a DataTable file equivalent to the current table instance.
-     * The lines are sorted in lexicographic order, and lines will always be \n terminated.
+     * The lines are sorted in lexicographic order, and lines will always be "\n" terminated.
      * 
      * @return The contents of a DataTable file equivalent to the current table instance.
      */
@@ -103,7 +107,7 @@ public class DataTable implements AutoCloseable {
      */
     protected Map<String, String> toMap() {
         final Map<String, String> result = new HashMap<>();
-        reader.lines()
+        lines.stream()
              .map(line -> line.split(" "))
              .map(DataTable::toEntry)
              .forEach(result::putAll);
@@ -121,7 +125,6 @@ public class DataTable implements AutoCloseable {
      */
     @Override
     public void close() throws Exception {
-        reader.close();
         writer.close();
     }
     
