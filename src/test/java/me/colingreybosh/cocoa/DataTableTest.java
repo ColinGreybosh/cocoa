@@ -62,11 +62,11 @@ public class DataTableTest {
     @Test
     public void testToFileContentsNonEmpty() throws Exception {
         final String expected =
-                "689225599990104070 2\r\n" +
-                "689225599990104071 1\r\n" + 
-                "689225599990104072 0\r\n";
+                "689225599990104070 2\n" +
+                "689225599990104071 1\n" + 
+                "689225599990104072 0\n";
         try (final DataTable table = new DataTable(BASE_PATH + "three.dt")) {
-            assertEquals(expected, table.toFileContents(), "Expected " + expected);
+            assertEquals(expected, table.toFileContents(), "Incorrect contents!");
         }
     }
     
@@ -93,7 +93,7 @@ public class DataTableTest {
         final Map<String, String> expected = Map.of("689225599990104070", "2", 
                 "689225599990104071", "1", "689225599990104072", "0");
         try (final DataTable table = new DataTable(BASE_PATH + "three.dt")) {
-            assertEquals(expected, table.toMap(), "Expected " + expected);
+            assertEquals(expected, table.toMap(), "Incorrect map!");
         }
     }
     
