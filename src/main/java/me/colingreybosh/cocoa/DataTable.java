@@ -10,8 +10,10 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -80,13 +82,16 @@ public class DataTable implements AutoCloseable {
     
     /**
      * Generates the contents of a DataTable file equivalent to the current table instance.
+     * The lines are sorted in lexicographic order, and lines will always be \n terminated.
      * 
      * @return The contents of a DataTable file equivalent to the current table instance.
      */
     protected String toFileContents() {
         String result = "";
-        for (Map.Entry<String, String> row : table.entrySet()) {
-            result += row.getKey() + " " + row.getValue() + "\n";
+        final List<Map.Entry<String, String>> entries = new ArrayList<>(table.entrySet());
+        entries.sort((o1, o2) -> o1.getKey().compareTo(o2.getKey()));
+        for (Map.Entry<String, String> entry : entries) {
+            result += entry.getKey() + " " + entry.getValue() + "\n";
         }
         return result;
     }
